@@ -1,0 +1,3 @@
+[submodule "local/cursos"]
+	path = local/cursos
+	url = git@github.com:nilhouses/Cursos.git
