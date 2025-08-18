@@ -1,3 +1,6 @@
 [submodule "local/cursos"]
 	path = local/cursos
 	url = git@github.com:nilhouses/Cursos.git
+[submodule "local/codechecker"]
+	path = local/codechecker
+	url = https://github.com/moodlehq/moodle-local_codechecker.git
