@@ -24,7 +24,7 @@
 
 require_once('../../config.php');
 require_once($CFG->dirroot . '/local/greetings/lib.php');
-// Ignoro warning require_login();
+// Ignoro warning (require_login();).
 
 $context = context_system::instance();
 $PAGE->set_context($context);
@@ -35,16 +35,7 @@ $PAGE->set_heading(get_string('pluginname', 'local_greetings'));
 
 echo $OUTPUT->header();
 
-// 1) Output greeting message using only PHP
-/*
-if (isloggedin()) {
-    echo '<h2>Greetings, ' . fullname($USER) . '</h2>';
-} else {
-    echo '<h2>Greetings, user</h2>';
-}
-*/
-
-// 2) Output greeting message using a mustache template
+// Output greeting message using a mustache template.
 if (isloggedin()) {
     $usergreeting = local_greetings_get_greeting($USER);
 } else {

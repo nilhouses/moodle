@@ -30,7 +30,7 @@ $string['pluginname'] = 'Greetings';
 $string['greetingloggedinuser'] = 'Greetings, {$a}.';
 $string['greetinguser'] = 'Greetings, user.';
 
-// Austrialia, Fiji, New Zealand and Spain
+// Greetings for users from specific countries (Australia, Fiji, New Zealand and Spain).
 $string['greetinguserau'] = 'Hello, {$a}.';
 $string['greetinguseres'] = 'Hola, {$a}.';
 $string['greetinguserfj'] = 'Bula, {$a}.';
