@@ -49,9 +49,21 @@ $templatedata = ['usergreeting' => $usergreeting];
 echo $OUTPUT->render_from_template('local_greetings/greeting_message', $templatedata);
 // Display the form.
 $messageform->display();
+// Get the database stored messages.
+$messages = $DB->get_records('local_greetings_messages');
+// Display them in a decent format.
+$templatedata = ['messages' => array_values($messages)];
+echo $OUTPUT->render_from_template('local_greetings/messages', $templatedata);
 // Read the user input.
 if ($data = $messageform->get_data()) {
     $message = required_param('message', PARAM_TEXT);
-    echo $OUTPUT->heading($message, 4);
+    // Save the input on the database.
+    if (!empty($message)) {
+        $record = new stdClass();
+        $record->message = $message;
+        $record->timecreated = time();
+
+        $DB->insert_record('local_greetings_messages', $record);
+    }
 }
 echo $OUTPUT->footer();
