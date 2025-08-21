@@ -24,7 +24,6 @@
 
 require_once('../../config.php');
 require_once($CFG->dirroot . '/local/greetings/lib.php');
-// Ignoro warning (require_login();).
 
 $context = context_system::instance();
 $PAGE->set_context($context);
@@ -32,6 +31,9 @@ $PAGE->set_url(new moodle_url('/local/greetings/index.php'));
 $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('pluginname', 'local_greetings'));
 $PAGE->set_heading(get_string('pluginname', 'local_greetings'));
+
+// Create the form instance.
+$messageform = new \local_greetings\form\message_form();
 
 echo $OUTPUT->header();
 
@@ -45,5 +47,11 @@ if (isloggedin()) {
 $templatedata = ['usergreeting' => $usergreeting];
 
 echo $OUTPUT->render_from_template('local_greetings/greeting_message', $templatedata);
-
+// Display the form.
+$messageform->display();
+// Read the user input.
+if ($data = $messageform->get_data()) {
+    $message = required_param('message', PARAM_TEXT);
+    echo $OUTPUT->heading($message, 4);
+}
 echo $OUTPUT->footer();
