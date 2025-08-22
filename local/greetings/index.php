@@ -32,6 +32,12 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('pluginname', 'local_greetings'));
 $PAGE->set_heading(get_string('pluginname', 'local_greetings'));
 
+// This plugin should only be accessible to logged in users.
+require_login();
+// To avoid guest users to se the plugin.
+if (isguestuser()) {
+    throw new moodle_exception('noguest');
+}
 // Create the form instance.
 $messageform = new \local_greetings\form\message_form();
 
