@@ -18,7 +18,7 @@
  * Main file to view greetings
  *
  * @package     local_greetings
- * @copyright   2023 Your name <your@email>
+ * @copyright   2025 Nil Casas<nil.cases@gmail.com>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -121,8 +121,10 @@ if ($allowviewpost) {
         $m->candelete = ($deleteanypost || ($deletepost && $m->userid == $USER->id));
     }
     // Display them in a decent format.
+    $cardbackgroundcolor = get_config('local_greetings', 'messagecardbgcolor');
     $templatedata = [
         'messages' => array_values($messages),
+        'cardbackgroundcolor' => $cardbackgroundcolor,
     ];
     echo $OUTPUT->render_from_template('local_greetings/messages', $templatedata);
 }
