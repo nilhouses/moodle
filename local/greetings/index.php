@@ -51,6 +51,8 @@ $messageform = new \local_greetings\form\message_form();
 $action = optional_param('action', '', PARAM_TEXT);
 
 if ($action == 'del') {
+    // Avoid CSRF attack.
+    require_sesskey();
     $id = required_param('id', PARAM_INT);
 
     if ($deleteanypost || $deletepost) {
@@ -63,6 +65,7 @@ if ($action == 'del') {
 
         // Todo: Confirm before deleting.
         $DB->delete_records('local_greetings_messages', $params);
+        redirect($PAGE->url);
     }
 }
 
@@ -80,7 +83,7 @@ if ($data = $messageform->get_data()) {
 
         $DB->insert_record('local_greetings_messages', $record);
         // Empty form.
-        redirect($PAGE->url); 
+        redirect($PAGE->url);
     }
 }
 
