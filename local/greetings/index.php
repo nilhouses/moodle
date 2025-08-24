@@ -52,7 +52,10 @@ $action = optional_param('action', '', PARAM_TEXT);
 if ($action == 'del') {
     $id = required_param('id', PARAM_INT);
 
-    $DB->delete_records('local_greetings_messages', ['id' => $id]);
+    if ($deleteanypost) {
+        // TODO: Confirm before deleting.
+        $DB->delete_records('local_greetings_messages', ['id' => $id]);
+    }
 }
 
 // Read the user input.
