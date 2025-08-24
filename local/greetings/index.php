@@ -38,6 +38,10 @@ require_login();
 if (isguestuser()) {
     throw new moodle_exception('noguest');
 }
+
+// Capabilities.
+$allowpost = has_capability('local/greetings:postmessages', $context);
+
 // Create the form instance.
 $messageform = new \local_greetings\form\message_form();
 
@@ -54,7 +58,9 @@ $templatedata = ['usergreeting' => $usergreeting];
 
 echo $OUTPUT->render_from_template('local_greetings/greeting_message', $templatedata);
 // Display the form.
-$messageform->display();
+if ($allowpost) {
+    $messageform->display();
+}
 // Get the database stored messages.
 $userfields = \core_user\fields::for_name()->with_identity($context);
 $userfieldssql = $userfields->get_sql('u');
@@ -70,6 +76,7 @@ $templatedata = ['messages' => array_values($messages)];
 echo $OUTPUT->render_from_template('local_greetings/messages', $templatedata);
 // Read the user input.
 if ($data = $messageform->get_data()) {
+    require_capability('local/greetings:postmessages', $context);
     $message = required_param('message', PARAM_TEXT);
     // Save the input on the database.
     if (!empty($message)) {
