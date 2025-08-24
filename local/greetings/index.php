@@ -41,10 +41,19 @@ if (isguestuser()) {
 
 // Capabilities.
 $allowpost = has_capability('local/greetings:postmessages', $context);
+$deleteanypost = has_capability('local/greetings:deleteanymessage', $context);
 $allowviewpost = has_capability('local/greetings:viewmessages', $context);
 
 // Create the form instance.
 $messageform = new \local_greetings\form\message_form();
+
+$action = optional_param('action', '', PARAM_TEXT);
+
+if ($action == 'del') {
+    $id = required_param('id', PARAM_INT);
+
+    $DB->delete_records('local_greetings_messages', ['id' => $id]);
+}
 
 // Read the user input.
 if ($data = $messageform->get_data()) {
@@ -91,7 +100,10 @@ if ($allowviewpost) {
 
     $messages = $DB->get_records_sql($sql);
     // Display them in a decent format.
-    $templatedata = ['messages' => array_values($messages)];
+    $templatedata = [
+        'messages' => array_values($messages),
+        'candeleteany' => $deleteanypost,
+    ];
     echo $OUTPUT->render_from_template('local_greetings/messages', $templatedata);
 }
 
