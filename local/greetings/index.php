@@ -41,42 +41,15 @@ if (isguestuser()) {
 
 // Capabilities.
 $allowpost = has_capability('local/greetings:postmessages', $context);
+$allowviewpost = has_capability('local/greetings:viewmessages', $context);
 
 // Create the form instance.
 $messageform = new \local_greetings\form\message_form();
 
-echo $OUTPUT->header();
-
-// Output greeting message using a mustache template.
-if (isloggedin()) {
-    $usergreeting = local_greetings_get_greeting($USER);
-} else {
-    $usergreeting = get_string('greetinguser', 'local_greetings');
-}
-
-$templatedata = ['usergreeting' => $usergreeting];
-
-echo $OUTPUT->render_from_template('local_greetings/greeting_message', $templatedata);
-// Display the form.
-if ($allowpost) {
-    $messageform->display();
-}
-// Get the database stored messages.
-$userfields = \core_user\fields::for_name()->with_identity($context);
-$userfieldssql = $userfields->get_sql('u');
-
-$sql = "SELECT m.id, m.message, m.timecreated, m.userid {$userfieldssql->selects}
-          FROM {local_greetings_messages} m
-     LEFT JOIN {user} u ON u.id = m.userid
-      ORDER BY timecreated DESC";
-
-$messages = $DB->get_records_sql($sql);
-// Display them in a decent format.
-$templatedata = ['messages' => array_values($messages)];
-echo $OUTPUT->render_from_template('local_greetings/messages', $templatedata);
 // Read the user input.
 if ($data = $messageform->get_data()) {
     require_capability('local/greetings:postmessages', $context);
+
     $message = required_param('message', PARAM_TEXT);
     // Save the input on the database.
     if (!empty($message)) {
@@ -88,4 +61,38 @@ if ($data = $messageform->get_data()) {
         $DB->insert_record('local_greetings_messages', $record);
     }
 }
+
+echo $OUTPUT->header();
+
+// Output greeting message using a mustache template.
+if (isloggedin()) {
+    $usergreeting = local_greetings_get_greeting($USER);
+} else {
+    $usergreeting = get_string('greetinguser', 'local_greetings');
+}
+
+$templatedata = ['usergreeting' => $usergreeting];
+echo $OUTPUT->render_from_template('local_greetings/greeting_message', $templatedata);
+
+// Display the form.
+if ($allowpost) {
+    $messageform->display();
+}
+
+// Get the database stored messages.
+if ($allowviewpost) {
+    $userfields = \core_user\fields::for_name()->with_identity($context);
+    $userfieldssql = $userfields->get_sql('u');
+
+    $sql = "SELECT m.id, m.message, m.timecreated, m.userid {$userfieldssql->selects}
+            FROM {local_greetings_messages} m
+        LEFT JOIN {user} u ON u.id = m.userid
+        ORDER BY timecreated DESC";
+
+    $messages = $DB->get_records_sql($sql);
+    // Display them in a decent format.
+    $templatedata = ['messages' => array_values($messages)];
+    echo $OUTPUT->render_from_template('local_greetings/messages', $templatedata);
+}
+
 echo $OUTPUT->footer();
