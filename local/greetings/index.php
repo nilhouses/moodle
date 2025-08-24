@@ -53,7 +53,6 @@ if ($action == 'del') {
     $id = required_param('id', PARAM_INT);
 
     if ($deleteanypost) {
-        // TODO: Confirm before deleting.
         $DB->delete_records('local_greetings_messages', ['id' => $id]);
     }
 }
