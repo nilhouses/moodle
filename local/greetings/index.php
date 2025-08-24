@@ -41,6 +41,7 @@ if (isguestuser()) {
 
 // Capabilities.
 $allowpost = has_capability('local/greetings:postmessages', $context);
+$deletepost = has_capability('local/greetings:deleteownmessage', $context);
 $deleteanypost = has_capability('local/greetings:deleteanymessage', $context);
 $allowviewpost = has_capability('local/greetings:viewmessages', $context);
 
@@ -52,8 +53,16 @@ $action = optional_param('action', '', PARAM_TEXT);
 if ($action == 'del') {
     $id = required_param('id', PARAM_INT);
 
-    if ($deleteanypost) {
-        $DB->delete_records('local_greetings_messages', ['id' => $id]);
+    if ($deleteanypost || $deletepost) {
+        $params = ['id' => $id];
+
+        // Users without permission can only delete their own post.
+        if (!$deleteanypost) {
+            $params += ['userid' => $USER->id];
+        }
+
+        // Todo: Confirm before deleting.
+        $DB->delete_records('local_greetings_messages', $params);
     }
 }
 
@@ -94,17 +103,21 @@ if ($allowpost) {
 if ($allowviewpost) {
     $userfields = \core_user\fields::for_name()->with_identity($context);
     $userfieldssql = $userfields->get_sql('u');
-
     $sql = "SELECT m.id, m.message, m.timecreated, m.userid {$userfieldssql->selects}
             FROM {local_greetings_messages} m
         LEFT JOIN {user} u ON u.id = m.userid
         ORDER BY timecreated DESC";
 
     $messages = $DB->get_records_sql($sql);
+
+    foreach ($messages as $m) {
+        // Can this user delete this post?
+        // Attach a flag to each message here because we can't do this in mustache.
+        $m->candelete = ($deleteanypost || ($deletepost && $m->userid == $USER->id));
+    }
     // Display them in a decent format.
     $templatedata = [
         'messages' => array_values($messages),
-        'candeleteany' => $deleteanypost,
     ];
     echo $OUTPUT->render_from_template('local_greetings/messages', $templatedata);
 }
