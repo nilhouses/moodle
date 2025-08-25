@@ -117,20 +117,15 @@ To execute everything we must execute:
     vendor/bin/phpunit --filter test_local_greetings_null_user
 ```
 
-In windows i can get some errors, ignored if I use teh testsuite i added in `phpunit.xml`:
+In windows some errors may appear, they can be ignored adding a testsuite in `phpunit.xml` after initialising the environment:
+
+```text
+    <testsuite name="greetings_testsuite">
+        <directory suffix="_test.php">local/greetings/tests</directory>
+    </testsuite>
+```
+And can erase warnings from terminal when executed using:
 
 ```bash
     vendor/bin/phpunit --testsuite greetings_testsuite
-```
-*Expected output*:
-```text
-Moodle 4.5.4 (Build: 20250414), 8f0c7bb53cd3ead755e941183e6d3bd0ac717a19
-Php: 8.2.28, mariadb: 10.11.11, OS: Linux 5.15.167.4-microsoft-standard-WSL2 x86_64
-PHPUnit 9.6.18 by Sebastian Bergmann and contributors.
-
-.                                                                   1 / 1 (100%)
-
-Time: 00:00.439, Memory: 358.00 MB
-
-OK (1 test, 1 assertion)
 ```

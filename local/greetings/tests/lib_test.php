@@ -40,46 +40,56 @@ require_once($CFG->dirroot . '/local/greetings/lib.php');
  */
 final class lib_test extends \advanced_testcase {
     /**
-     * Tests translation of greeting messages using local_greetings_get_greeting.
+     * Testing the translation of greeting messages.
      *
      * @covers ::local_greetings_get_greeting
+     *
+     * @dataProvider local_greetings_get_greeting_provider
      * @param string|null $country User country
      * @param string $langstring Greetings message language string
-     *
      * To run this test:
      *   1. Initialise PHPUnit: php admin/tool/phpunit/cli/init.php
-     *   2. Execute: vendor/bin/phpunit --filter test_local_greetings_null_user
+     *   2. Execute: vendor/bin/phpunit --filter test_local_greetings_get_greeting
      */
-    public function test_local_greetings_null_user(): void {
-        $this->resetAfterTest();
+    public function test_local_greetings_get_greeting(?string $country, string $langstring): void {
+        $user = null;
+        if (!empty($country)) {
+            $this->resetAfterTest(true);
+            $user = $this->getDataGenerator()->create_user();
+            $user->country = $country;
+        }
 
-        // Test null user case.
-        $result = local_greetings_get_greeting(null);
-        $expected = get_string('greetinguser', 'local_greetings');
-        $this->assertEquals($expected, $result);
+        $this->assertSame(get_string($langstring, 'local_greetings', fullname($user)), local_greetings_get_greeting($user));
     }
 
     /**
-     * Tests greeting message translation for a user with country set to 'AU' using local_greetings_get_greeting.
+     * Data provider for {@see test_local_greetings_get_greeting()}.
      *
-     * @covers ::local_greetings_get_greeting
-     *
-     * This test creates a user, sets their country to 'AU', and verifies that the returned greeting
-     * matches the expected language string for Australian users.
-     *
-     * To run this test:
-     *   1. Initialise PHPUnit: php admin/tool/phpunit/cli/init.php
-     *   2. Execute: vendor/bin/phpunit --filter test_local_greetings_au_user
+     * @return array List of data sets - (string) data set name => (array) data
      */
-    public function test_local_greetings_au_user(): void {
-        $this->resetAfterTest();
-
-        // Test user with country='AU'.
-        $user = $this->getDataGenerator()->create_user(); // Create a new user.
-        $user->country = 'AU';
-
-        $result = local_greetings_get_greeting($user);
-        $expected = get_string('greetinguserau', 'local_greetings', fullname($user));
-        $this->assertEquals($expected, $result);
+    public static function local_greetings_get_greeting_provider(): array {
+        return [
+            'No user' => [ // Not logged in.
+                'country' => null,
+                'langstring' => 'greetinguser',
+            ],
+            'AU user' => [
+                'country' => 'AU',
+                'langstring' => 'greetinguserau',
+            ],
+            'ES user' => [
+                'country' => 'ES',
+                'langstring' => 'greetinguseres',
+            ],
+            'VU user' => [ // Logged in user, but no local greeting.
+                'country' => 'VU',
+                'langstring' => 'greetingloggedinuser',
+            ],
+            // This case will fail, just to see the output result.
+            'UK user' => [
+                'country' => 'UK',
+                'langstring' => 'greetinguseres',
+            ],
+        ];
     }
 }
