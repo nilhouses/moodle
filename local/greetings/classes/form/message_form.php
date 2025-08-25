@@ -36,7 +36,7 @@ require_once($CFG->libdir . '/formslib.php');
  * and a submit button.
  *
  * @package   local_greetings
- * @copyright 2025 Nil Casas<nil.cases@gmail.com>
+ * @copyright 2025 Nil Casas <nil.cases@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class message_form extends \moodleform {

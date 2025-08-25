@@ -32,23 +32,23 @@ global $CFG;
 require_once($CFG->dirroot . '/local/greetings/lib.php');
 
 /**
- * Unit test for local_greetings_get_greeting() function.
+ * Greetings library tests
  *
- * This test verifies that when a null user is provided to
- * local_greetings_get_greeting(),
- * the function returns the generic greeting string as expected.
- *
- * The test resets the environment before execution to ensure isolation.
- * It asserts that the returned greeting matches the localized string for generic
- * users.
- *
- * @covers ::local_greetings_get_greeting
+ * @package     local_greetings
+ * @copyright   2025 Nil Casas <nil.cases@gmail.com>
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 final class lib_test extends \advanced_testcase {
     /**
-     * cd /path-to-www/moodle
-     * php admin/tool/phpunit/cli/init.php
-     * vendor/bin/phpunit --filter test_local_greetings_null_user
+     * Tests translation of greeting messages using local_greetings_get_greeting.
+     *
+     * @covers ::local_greetings_get_greeting
+     * @param string|null $country User country
+     * @param string $langstring Greetings message language string
+     *
+     * To run this test:
+     *   1. Initialise PHPUnit: php admin/tool/phpunit/cli/init.php
+     *   2. Execute: vendor/bin/phpunit --filter test_local_greetings_null_user
      */
     public function test_local_greetings_null_user(): void {
         $this->resetAfterTest();
@@ -56,6 +56,30 @@ final class lib_test extends \advanced_testcase {
         // Test null user case.
         $result = local_greetings_get_greeting(null);
         $expected = get_string('greetinguser', 'local_greetings');
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * Tests greeting message translation for a user with country set to 'AU' using local_greetings_get_greeting.
+     *
+     * @covers ::local_greetings_get_greeting
+     *
+     * This test creates a user, sets their country to 'AU', and verifies that the returned greeting
+     * matches the expected language string for Australian users.
+     *
+     * To run this test:
+     *   1. Initialise PHPUnit: php admin/tool/phpunit/cli/init.php
+     *   2. Execute: vendor/bin/phpunit --filter test_local_greetings_au_user
+     */
+    public function test_local_greetings_au_user(): void {
+        $this->resetAfterTest();
+
+        // Test user with country='AU'.
+        $user = $this->getDataGenerator()->create_user(); // Create a new user.
+        $user->country = 'AU';
+
+        $result = local_greetings_get_greeting($user);
+        $expected = get_string('greetinguserau', 'local_greetings', fullname($user));
         $this->assertEquals($expected, $result);
     }
 }
