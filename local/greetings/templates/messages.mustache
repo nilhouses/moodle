@@ -23,9 +23,9 @@
     {
     }
 }}
-<div class="box py-3 card-columns">
+<div class="box py-3 card-columns" role="list">
 {{#messages}}
-    <div class="card" style="background: {{cardbackgroundcolor}}">
+    <div class="card" style="background: {{cardbackgroundcolor}}" role="listitem">
         <div class="card-body">
             <p class="card-text">{{message}}</p>
             <p class="card-text">{{#str}} postedby, local_greetings, {{firstname}} {{/str}}</p>
@@ -36,8 +36,15 @@
             </p>
             {{#candelete}}
                 <p class="card-footer text-center">
-                    <a href="{{config.wwwroot}}/local/greetings/index.php?action=del&id={{id}}&sesskey={{config.sesskey}}">
-                        {{#pix}} t/delete {{/pix}}{{#str}} delete {{/str}}
+                    <a
+                        href="{{config.wwwroot}}/local/greetings/edit.php?id={{id}}"
+                        role="button">
+                        {{#pix}} t/edit, core, {{#str}} edit {{/str}} {{/pix}}
+                    </a>
+                    <a
+                        href="{{config.wwwroot}}/local/greetings/index.php?action=del&id={{id}}&sesskey={{config.sesskey}}"
+                        role="button">
+                        {{#pix}} t/delete, core, {{#str}} delete {{/str}} {{/pix}}
                     </a>
                 </p>
             {{/candelete}}
