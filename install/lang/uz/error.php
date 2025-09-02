@@ -29,16 +29,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['clianswerno'] = 'n';
-$string['cliansweryes'] = 'y';
-$string['cliincorrectvalueerror'] = 'Xato, “{$a->option}” uchun noto‘g‘ri “{$a->value}” qiymati';
-$string['cliincorrectvalueretry'] = 'Noto‘g‘ri qiymat, iltimos qayta urinib ko‘ring';
-$string['clitypevalue'] = 'qiymatni kiritish';
-$string['clitypevaluedefault'] = 'qiymatni kiriting, ({$a}) odatiy qiymatni ishlatish uchun Enter tumgasini bosing';
-$string['cliunknowoption'] = 'Noma\'lum parametrlar:
- {$a}
-Iltimos, -- help parametridan foydalaning';
-$string['cliyesnoprompt'] = 'y tugmasini bosing (ha degani) yoki n tugmasini bosing (yo‘q degani)';
-$string['environmentrequireinstall'] = 'o‘rnatilishi va yoqilishi shart.';
-$string['environmentrequireversion'] = '{$a->needed} versiyasi talab etiladi, sizda esa hozirda {$a->current} ishlatilmoqda';
-$string['upgradekeyset'] = 'Yangilash kaliti (o‘rnatmaslik uchun bo‘sh qoldiring)';
+$string['cannotcreatedboninstall'] = '<p>Ma\'lumotlar bazasini yaratib bo\'lmadi.</p>
+<p>Ko\'rsatilgan ma\'lumotlar bazasi mavjud emas va berilgan foydalanuvchida uni yaratish huquqi yo\'q.</p>
+<p>Sayt administratori ma\'lumotlar bazasi konfiguratsiyasini tekshirishi kerak.</p>';
+$string['cannotcreatelangdir'] = 'Til katalogini yaratib bo\'lmadi';
+$string['cannotcreatetempdir'] = 'Vaqtinchalik jildni yaratib bo‘lmadi';
+$string['cannotdownloadcomponents'] = 'Komponentlarni yuklab olib bo\'lmadi';
+$string['cannotdownloadzipfile'] = 'ZIP faylini yuklab olib bo\'lmadi';
+$string['cannotfindcomponent'] = 'Komponentni topib bo\'lmadi';
