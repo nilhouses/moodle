@@ -15,22 +15,26 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Plugin strings are defined here.
+ * Plugin version and other meta-data are defined here.
  *
  * @package     filter_textsubstitute
- * @category    string
  * @copyright   2025 Nil Casas <nil.cases@gmail.com>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+namespace block_calendar_month\privacy;
 
-$string['filtername'] = 'Text substitute';
-$string['pluginname'] = 'Text substitute';
-$string['privacy:metadata'] = 'The Text substitute plugin does not store any personal data.';
-$string['settingformats'] = 'Apply to formats';
-$string['settingformats_desc'] = 'The filter will be applied only if the original text was inserted in one of the selected formats.';
-$string['settingsearchterm'] = 'Old term';
-$string['settingsearchterm_help'] = 'The old term to replace.';
-$string['settingsubstituteterm'] = 'Substitute term';
-$string['settingsubstituteterm_help'] = 'The new term to substitute the old term with.';
+class provider implements
+    // This plugin does not store any personal user data.
+    \core_privacy\local\metadata\null_provider {
+
+    /**
+     * Get the language string identifier with the component's language
+     * file to explain why this plugin stores no data.
+     *
+     * @return  string
+     */
+    public static function get_reason(): string {
+        return 'privacy:metadata';
+    }
+}
