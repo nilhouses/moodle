@@ -1,0 +1,7 @@
+source_plugin:
+  plugintype: local
+  pluginname: greetings
+
+target_plugin:
+  plugintype: block
+  pluginname: greetings
