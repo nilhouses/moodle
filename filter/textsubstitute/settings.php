@@ -26,23 +26,33 @@
 defined('MOODLE_INTERNAL') || die();
 
 if ($ADMIN->fulltree) {
-    $settings->add(new admin_setting_configtext('filter_textsubstitute/searchterm',
-        get_string('settingsearchterm', 'filter_textsubstitute'),
-        get_string('settingsearchterm_help', 'filter_textsubstitute'),
-        '',
-        PARAM_TEXT)
+    $settings->add(
+        new admin_setting_configtext(
+            'filter_textsubstitute/searchterm',
+            get_string('settingsearchterm', 'filter_textsubstitute'),
+            get_string('settingsearchterm_help', 'filter_textsubstitute'),
+            '',
+            PARAM_TEXT
+        )
     );
 
-    $settings->add(new admin_setting_configtext('filter_textsubstitute/substituteterm',
-        get_string('settingsubstituteterm', 'filter_textsubstitute'),
-        get_string('settingsubstituteterm_help', 'filter_textsubstitute'),
-        '',
-        PARAM_TEXT)
+    $settings->add(
+        new admin_setting_configtext(
+            'filter_textsubstitute/substituteterm',
+            get_string('settingsubstituteterm', 'filter_textsubstitute'),
+            get_string('settingsubstituteterm_help', 'filter_textsubstitute'),
+            '',
+            PARAM_TEXT
+        )
     );
 
-    $settings->add(new admin_setting_configmulticheckbox('filter_textsubstitute/formats',
-        get_string('settingformats', 'filter_textsubstitute'),
-        get_string('settingformats_desc', 'filter_textsubstitute'),
-        [FORMAT_HTML => 1, FORMAT_MARKDOWN => 1, FORMAT_MOODLE => 1], format_text_menu())
+    $settings->add(
+        new admin_setting_configmulticheckbox(
+            'filter_textsubstitute/formats',
+            get_string('settingformats', 'filter_textsubstitute'),
+            get_string('settingformats_desc', 'filter_textsubstitute'),
+            [FORMAT_HTML => 1, FORMAT_MARKDOWN => 1, FORMAT_MOODLE => 1],
+            format_text_menu()
+        )
     );
 }
