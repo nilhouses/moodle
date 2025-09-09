@@ -35,7 +35,6 @@ function xmldb_local_dbapis_upgrade($oldversion) {
     $dbman = $DB->get_manager();
 
     if ($oldversion < 2025090901) {
-
         // Define table local_dbapis_history to be created.
         $table = new xmldb_table('local_dbapis_history');
 

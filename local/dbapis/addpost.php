@@ -49,12 +49,11 @@ if (isguestuser()) {
 $messageform = new \local_dbapis\form\message_form();
 
 if ($data = $messageform->get_data()) {
-
     // We are getting the user input as is.
     $message = required_param('message', PARAM_TEXT);
 
     if (!empty($message)) {
-        $record = new stdClass;
+        $record = new stdClass();
         $record->message = $message;
         $record->timecreated = time();
         $record->userid = $USER->id;
@@ -69,5 +68,7 @@ echo $OUTPUT->header();
 echo $OUTPUT->heading($strheading, 2);
 
 $messageform->display();
+
+echo $OUTPUT->render_from_template('local_dbapis/disclaimer', []);
 
 echo $OUTPUT->footer();

@@ -41,4 +41,7 @@ echo $OUTPUT->header();
 
 echo $OUTPUT->render_from_template('local_dbapis/index_page', []);
 
+echo $OUTPUT->render_from_template('local_dbapis/disclaimer', []);
+
+
 echo $OUTPUT->footer();
