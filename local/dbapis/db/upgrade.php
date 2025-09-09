@@ -19,7 +19,7 @@
  *
  * @package     local_dbapis
  * @category    upgrade
- * @copyright   2023 Your Name <you@example.com>
+ * @copyright   2025 Nil Casas <nil.cases@gmail.com>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -33,6 +33,41 @@ function xmldb_local_dbapis_upgrade($oldversion) {
     global $DB;
 
     $dbman = $DB->get_manager();
+
+    if ($oldversion < 2025090901) {
+
+        // Define table local_dbapis_history to be created.
+        $table = new xmldb_table('local_dbapis_history');
+
+        // Adding fields to table local_dbapis_history.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('messageid', XMLDB_TYPE_INTEGER, '11', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('message', XMLDB_TYPE_TEXT, null, null, XMLDB_NOTNULL, null, null);
+        $table->add_field('userid', XMLDB_TYPE_INTEGER, '11', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('timecreated', XMLDB_TYPE_INTEGER, '11', null, XMLDB_NOTNULL, null, null);
+
+        // Adding keys to table local_dbapis_history.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+
+        // Conditionally launch create table for local_dbapis_history.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Now copy the data from table local_dbapis to local_dbapis_history.
+        $rs = $DB->get_recordset('local_dbapis');
+
+        foreach ($rs as $record) {
+            $record->messageid = $record->id; // The id is messageid.
+            $record->id = null; // New id for this record will be generated.
+            $DB->insert_record('local_dbapis_history', $record);
+        }
+
+        $rs->close();
+
+        // Dbapis savepoint reached.
+        upgrade_plugin_savepoint(true, 2025090901, 'local', 'dbapis');
+    }
 
     // For further information please read {@link https://docs.moodle.org/dev/Upgrade_API}.
     //

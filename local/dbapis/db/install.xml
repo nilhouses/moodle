@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/dbapis/db" VERSION="20250908" COMMENT="XMLDB file for Moodle local/dbapis"
+<XMLDB PATH="local/dbapis/db" VERSION="20250909" COMMENT="XMLDB file for Moodle local/dbapis"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
   <TABLES>
-    <TABLE NAME="local_dbapis" COMMENT="Default comment for local_dbapis, please edit me">
+    <TABLE NAME="local_dbapis_history" COMMENT="Default comment for local_dbapis, please edit me">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="messageid" TYPE="int" LENGTH="11" NOTNULL="true" SEQUENCE="false" COMMENT="id of the message record from local_dbapis table"/>
         <FIELD NAME="message" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="record text messages from users"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="11" NOTNULL="true" SEQUENCE="false" COMMENT="id of the user/post author"/>
         <FIELD NAME="timecreated" TYPE="int" LENGTH="11" NOTNULL="true" SEQUENCE="false" COMMENT="date/time when the post was created"/>
