@@ -18,7 +18,7 @@
  * Add post.
  *
  * @package    local_dbapis
- * @copyright  2023 Your Name <you@example.com>
+ * @copyright  2025 Nil Casas <nil.cases@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -51,22 +51,18 @@ $messageform = new \local_dbapis\form\message_form();
 if ($data = $messageform->get_data()) {
 
     // We are getting the user input as is.
-    // Todo: Ensure user input is safe to use.
-    $message = required_param('message', PARAM_RAW);
+    $message = required_param('message', PARAM_TEXT);
 
-    // We are just displaying the form data here.
-    // Todo: Save the data to the database.
-    echo $OUTPUT->header();
+    if (!empty($message)) {
+        $record = new stdClass;
+        $record->message = $message;
+        $record->timecreated = time();
+        $record->userid = $USER->id;
 
-    echo html_writer::start_tag('div', ['class' => 'border p-3 my-3']);
-    echo $message;
-    echo html_writer::end_tag('div');
+        $DB->insert_record('local_dbapis', $record);
+    }
 
-    echo html_writer::link($PAGE->url, get_string('continue'), ['class' => 'btn btn-link']);
-
-    echo $OUTPUT->footer();
-
-    exit;
+    redirect($PAGE->url); // Reload this page to load empty form.
 }
 
 echo $OUTPUT->header();

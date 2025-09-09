@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Index file
+ * Delete post
  *
  * @package    local_dbapis
  * @copyright  2025 Nil Casas <nil.cases@gmail.com>
@@ -24,21 +24,13 @@
 
 require_once('../../config.php');
 
-$context = context_system::instance();
-$PAGE->set_context($context);
-$PAGE->set_url(new moodle_url('/local/dbapis/index.php'));
-$PAGE->set_pagelayout('standard');
-$PAGE->set_title(get_string('pluginname', 'local_dbapis'));
-$PAGE->set_heading(get_string('pluginname', 'local_dbapis'));
+$id  = required_param('id', PARAM_INT); // Message id.
+$returnurl = required_param('returnurl', PARAM_TEXT);
 
 require_login();
 
-if (isguestuser()) {
-    throw new moodle_exception('noguest');
-}
+require_sesskey();
 
-echo $OUTPUT->header();
+$DB->delete_records('local_dbapis', ['id' => $id]);
 
-echo $OUTPUT->render_from_template('local_dbapis/index_page', []);
-
-echo $OUTPUT->footer();
+redirect($returnurl, get_string('postdeleted', 'local_dbapis'));
