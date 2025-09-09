@@ -71,11 +71,16 @@ if ($data = $searchform->get_data()) {
         $user = $DB->get_record('user', ['id' => $record->userid]);
 
         echo html_writer::start_tag('p', ['class' => '']);
-        $record->deleteurl = $OUTPUT->single_button(
-            new moodle_url('/local/dbapis/deletepost.php', ['id' => $record->id, 'returnurl' => $PAGE->url]),
-            get_string('delete')
-        );
-        echo $record->deleteurl . $record->id . ', ' . $record->message . ', ' . $user->firstname . ' ' . $user->lastname;
+        
+        if (has_capability('local/dbapis:deleteanymessage', $context)) {
+            echo $OUTPUT->single_button(
+                new moodle_url('/local/dbapis/deletepost.php', ['id' => $record->id, 'returnurl' => $PAGE->url]),
+                get_string('delete')
+            );
+        }
+
+        echo $record->id . ', ' . $record->message . ', ' . $user->firstname . ' ' . $user->lastname;
+        
         echo html_writer::end_tag('p');
     }
 
@@ -83,5 +88,7 @@ if ($data = $searchform->get_data()) {
 
     echo html_writer::link($PAGE->url, get_string('continue'), ['class' => 'btn btn-link']);
 }
+
+echo html_writer::tag('p', get_string('disclaimer', 'local_dbapis'), ['class' => 'alert alert-info mt-5']);
 
 echo $OUTPUT->footer();
