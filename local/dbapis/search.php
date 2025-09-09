@@ -56,8 +56,7 @@ $searchform->display();
 if ($data = $searchform->get_data()) {
 
     // We are getting the user input as is.
-    // Todo: Ensure user input is safe to use.
-    $searchterm = required_param('searchterm', PARAM_RAW);
+    $searchterm = required_param('searchterm', PARAM_TEXT);
 
     // Search query.
     $sql = "SELECT * FROM {local_dbapis} WHERE message LIKE '%$searchterm%'";
