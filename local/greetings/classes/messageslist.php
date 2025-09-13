@@ -24,7 +24,7 @@ require_once("$CFG->libdir/tablelib.php");
  * Class messageslist
  *
  * @package    local_greetings
- * @copyright  2024 YOUR NAME <your@email.com>
+ * @copyright  2025 Nil Casas <nil.cases@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class messageslist extends \table_sql {
@@ -56,8 +56,11 @@ class messageslist extends \table_sql {
      */
     public function col_userid($row) {
         return \html_writer::link(
-            new \moodle_url('/user/view.php',
-            ['id' => $row->userid]), fullname($row)
+            new \moodle_url(
+                '/user/view.php',
+                ['id' => $row->userid]
+            ),
+            fullname($row)
         );
     }
 

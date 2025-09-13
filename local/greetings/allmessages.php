@@ -46,8 +46,8 @@ $homenode = $PAGE->navigation->add(
 );
 
 $allmessagesnode = $homenode->add(
-   get_string('allmessages', 'local_greetings'),
-   $url
+    get_string('allmessages', 'local_greetings'),
+    $url
 );
 
 $allmessagesnode->make_active();
@@ -62,9 +62,11 @@ $userfieldssql = $userfields->get_sql('u');
 
 $table = new local_greetings\messageslist($USER->id);
 
-$table->set_sql("m.id, m.message, m.timecreated, m.userid {$userfieldssql->selects}",
+$table->set_sql(
+    "m.id, m.message, m.timecreated, m.userid {$userfieldssql->selects}",
     "{local_greetings_messages} m LEFT JOIN {user} u ON u.id = m.userid",
-    true);
+    true
+);
 
 $table->sortable(true, 'timecreated', SORT_DESC);
 $table->define_baseurl("$CFG->wwwroot/local/greetings/allmessages.php");

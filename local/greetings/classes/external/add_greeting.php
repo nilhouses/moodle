@@ -42,11 +42,10 @@ use context_system;
  * Add greeting
  *
  * @package     local_greetings
- * @copyright   2022 Your name <your@email>
+ * @copyright   2025 Nil Casas <nil.cases@gmail.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class add_greeting extends external_api {
-
     /**
      * Returns description of method parameters
      *
@@ -54,10 +53,10 @@ class add_greeting extends external_api {
      */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters(
-                [
-                    'userid' => new external_value(PARAM_INT, 'Id of the user'),
-                    'message' => new external_value(PARAM_TEXT, 'Message to be added'),
-                ]
+            [
+                'userid' => new external_value(PARAM_INT, 'Id of the user'),
+                'message' => new external_value(PARAM_TEXT, 'Message to be added'),
+            ]
         );
     }
 
@@ -89,7 +88,7 @@ class add_greeting extends external_api {
         }
 
         if (has_capability('local/greetings:postmessages', $context)) {
-            $record = new stdClass;
+            $record = new stdClass();
             $record->message = $message;
             $record->timecreated = time();
             $record->userid = $params['userid'];

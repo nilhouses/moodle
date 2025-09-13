@@ -15,8 +15,14 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
+ * Output functions for the local_greetings mobile interface.
+ *
+ * This file defines the mobile output class for the local_greetings plugin,
+ * providing methods to render templates and handle data for mobile views,
+ * such as greeting messages and forms.
+ *
  * @package     local_greetings
- * @copyright   2022 Your name <your@email>
+ * @copyright   Nil Casas <nil.cases@gmail.com>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -24,8 +30,21 @@ namespace local_greetings\output;
 
 use context_system;
 
+/**
+ * Class mobile
+ *
+ * Provides output functions for the local_greetings mobile interface.
+ *
+ * @package     local_greetings
+ * @copyright   Nil Casas <nil.cases@gmail.com>
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class mobile {
-
+    /**
+     * Greets the user with a hello message.
+     *
+     * @return void
+     */
     public static function view_hello() {
         return [
             'templates' => [
@@ -36,7 +55,12 @@ class mobile {
             ],
         ];
     }
-
+    /**
+     * Displays a list of greetings messages.
+     *
+     * @param mixed $args The arguments for displaying the greetings list.
+     * @return array The rendered templates and associated JavaScript.
+     */
     public static function mobile_view_greetings_list($args) {
         global $OUTPUT, $DB;
 
@@ -71,9 +95,15 @@ class mobile {
             ],
             'javascript' => file_get_contents(__DIR__ . '/../../js/mobile/view_greetings_list.js'),
         ];
-
     }
-
+    /**
+     * Processes the given selection.
+     *
+     * This function performs operations based on the provided selection.
+     *
+     * @param mixed $selection The selection to be processed.
+     * @return void
+     */
     public static function mobile_view_greetings_form($args) {
         global $OUTPUT, $USER;
 

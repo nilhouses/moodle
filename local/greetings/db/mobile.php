@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
+ * This file contains mobile-related database definitions for the local_greetings plugin.
+ *
  * @package     local_greetings
  * @copyright   2025 Nil Casas <nil.cases@gmail.com>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
