@@ -15,24 +15,48 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Plugin strings are defined here.
+ * Library of functions for local_greetings
  *
  * @package     local_greetings
- * @category    string
- * @copyright   2025 Nil Casas <nil.cases@gmail.com>
+ * @copyright   2022 Your name <your@email>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 /**
- * Returns a localized greeting string for the given user.
+ * Insert a link to index.php on the site front page navigation menu.
  *
- * This function selects a greeting string based on the user's country.
- * If no user is provided, a generic greeting is returned.
- * Supported countries: Spain (ES), Australia (AU), Fiji (FJ), New Zealand (NZ).
- * For other countries, a default greeting for logged-in users is used.
+ * @param navigation_node $frontpage Node representing the front page in the navigation tree.
+ */
+function local_greetings_extend_navigation_frontpage(navigation_node $frontpage) {
+    if (isloggedin() && !isguestuser()) {
+        $frontpage->add(
+            get_string('pluginname', 'local_greetings'),
+            new moodle_url('/local/greetings/index.php'),
+            navigation_node::TYPE_CUSTOM,
+        );
+    }
+}
+
+/**
+ * Insert a link to index.php on the Course secondary navigation.
  *
- * @param stdClass|null $user The user object. If null, returns a generic greeting.
- * @return string The localized greeting string.
+ * @param navigation_node $mynode Node representing the course secondary navigation tree.
+ */
+function local_greetings_extend_navigation_course(navigation_node $mynode) {
+    if (isloggedin() && !isguestuser()) {
+        $newnode = $mynode->add(
+            get_string('pluginname', 'local_greetings'),
+            new moodle_url('/local/greetings/index.php'),
+            navigation_node::TYPE_CUSTOM,
+        );
+    }
+}
+
+/**
+ * Get a localised greeting message for a user
+ *
+ * @param \stdClass $user
+ * @return string
  */
 function local_greetings_get_greeting($user) {
     if ($user == null) {
@@ -40,12 +64,13 @@ function local_greetings_get_greeting($user) {
     }
 
     $country = $user->country;
+
     switch ($country) {
-        case 'ES':
-            $langstr = 'greetinguseres';
-            break;
         case 'AU':
             $langstr = 'greetinguserau';
+            break;
+        case 'ES':
+            $langstr = 'greetinguseres';
             break;
         case 'FJ':
             $langstr = 'greetinguserfj';
@@ -59,41 +84,4 @@ function local_greetings_get_greeting($user) {
     }
 
     return get_string($langstr, 'local_greetings', fullname($user));
-}
-
-/**
- * Insert a link to index.php on the site front page navigation menu.
- *
- * @param navigation_node $frontpage Node representing the front page in the navigation tree.
- */
-function local_greetings_extend_navigation_frontpage(navigation_node $frontpage) {
-    global $USER;
-
-    // Only show the link to logged in users (not guests).
-    if (isloggedin() && !isguestuser()) {
-        $frontpage->add(
-            get_string('pluginname', 'local_greetings'),
-            new moodle_url('/local/greetings/index.php'),
-            navigation_node::TYPE_CUSTOM
-        );
-    }
-}
-
-/**
- * WARNING This function ONLY works when the selected theme is the classic theme
- * Insert a link to index.php on the site front page navigation drawer, as well as an icon.
- *
- * @param navigation_node $frontpage Node representing the front page in the navigation tree.
- */
-function local_greetings_extend_navigation(global_navigation $root) {
-    $node = navigation_node::create(
-        get_string('pluginname', 'local_greetings'),
-        new moodle_url('/local/greetings/index.php'),
-        navigation_node::TYPE_CUSTOM,
-        null,
-        null,
-        new pix_icon('t/message', '')
-    );
-
-    $root->add_node($node);
 }

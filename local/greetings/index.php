@@ -18,7 +18,7 @@
  * Main file to view greetings
  *
  * @package     local_greetings
- * @copyright   2025 Nil Casas <nil.cases@gmail.com>
+ * @copyright   2022 Your name <your@email>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -32,101 +32,70 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('pluginname', 'local_greetings'));
 $PAGE->set_heading(get_string('pluginname', 'local_greetings'));
 
-// This plugin should only be accessible to logged in users.
 require_login();
-// To avoid guest users to se the plugin.
+
 if (isguestuser()) {
     throw new moodle_exception('noguest');
 }
 
-// Capabilities.
 $allowpost = has_capability('local/greetings:postmessages', $context);
 $deletepost = has_capability('local/greetings:deleteownmessage', $context);
 $deleteanypost = has_capability('local/greetings:deleteanymessage', $context);
-$allowviewpost = has_capability('local/greetings:viewmessages', $context);
-
-// Create the form instance.
-$messageform = new \local_greetings\form\message_form();
 
 $action = optional_param('action', '', PARAM_TEXT);
 
 if ($action == 'del') {
-    // Avoid CSRF attack.
     require_sesskey();
-    $id = required_param('id', PARAM_INT);
+
+    $id = required_param('id', PARAM_TEXT);
 
     if ($deleteanypost || $deletepost) {
         $params = ['id' => $id];
 
-        // Users without permission can only delete their own post.
+        // Users without permission should only delete their own post.
         if (!$deleteanypost) {
             $params += ['userid' => $USER->id];
         }
 
         // Todo: Confirm before deleting.
         $DB->delete_records('local_greetings_messages', $params);
-        redirect($PAGE->url);
+
+        redirect($PAGE->url); // Reload this page to remove visible sesskey.
     }
 }
 
-// Read the user input.
-if ($data = $messageform->get_data()) {
-    require_capability('local/greetings:postmessages', $context);
+$output = $PAGE->get_renderer('local_greetings');
 
-    $message = required_param('message', PARAM_TEXT);
-    // Save the input on the database.
-    if (!empty($message)) {
-        $record = new stdClass();
-        $record->message = $message;
-        $record->timecreated = time();
-        $record->userid = $USER->id;
+echo $output->header();
 
-        $DB->insert_record('local_greetings_messages', $record);
-        // Empty form.
-        redirect($PAGE->url);
-    }
-}
+// Adding simple navmenu acting as "tertiary navigation".
+echo $output->render_from_template('local_greetings/navmenu', []);
 
-echo $OUTPUT->header();
-
-// Output greeting message using a mustache template.
 if (isloggedin()) {
-    $usergreeting = local_greetings_get_greeting($USER);
+    echo local_greetings_get_greeting($USER);
 } else {
-    $usergreeting = get_string('greetinguser', 'local_greetings');
+    echo get_string('greetinguser', 'local_greetings');
 }
 
-$templatedata = ['usergreeting' => $usergreeting];
-echo $OUTPUT->render_from_template('local_greetings/greeting_message', $templatedata);
-
-// Display the form.
-if ($allowpost) {
-    $messageform->display();
-}
-
-// Get the database stored messages.
-if ($allowviewpost) {
+if (has_capability('local/greetings:viewmessages', $context)) {
     $userfields = \core_user\fields::for_name()->with_identity($context);
     $userfieldssql = $userfields->get_sql('u');
+
     $sql = "SELECT m.id, m.message, m.timecreated, m.userid {$userfieldssql->selects}
             FROM {local_greetings_messages} m
-        LEFT JOIN {user} u ON u.id = m.userid
-        ORDER BY timecreated DESC";
+            LEFT JOIN {user} u ON u.id = m.userid
+            ORDER BY timecreated DESC LIMIT 10";
 
     $messages = $DB->get_records_sql($sql);
 
-    foreach ($messages as $m) {
-        // Can this user delete this post?
-        // Attach a flag to each message here because we can't do this in mustache.
-        $m->candelete = ($deleteanypost || ($deletepost && $m->userid == $USER->id));
-    }
-    // Display them in a decent format.
-    $cardbackgroundcolor = get_config('local_greetings', 'messagecardbgcolor');
-    $templatedata = [
-        'messages' => array_values($messages),
-        'cardbackgroundcolor' => $cardbackgroundcolor,
-    ];
-    echo $OUTPUT->render_from_template('local_greetings/messages', $templatedata);
+    $renderable = new \local_greetings\output\index_page($messages);
+    echo $output->render($renderable);
 }
 
-echo $OUTPUT->footer();
+$PAGE->requires->js_call_amd(
+    'local_greetings/greetings',
+    'messageDynamicForm',
+    ['[data-region=form]', \local_greetings\form\message_dynamic_form::class, $USER->id]
+);
+
+echo $output->footer();

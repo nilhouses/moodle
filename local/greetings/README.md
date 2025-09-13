@@ -1,8 +1,8 @@
 # Greetings #
 
-TO-DO Describe the plugin shortly here.
+TODO Describe the plugin shortly here.
 
-TO-DO Provide more detailed description here.
+TODO Provide more detailed description here.
 
 ## Installing via uploaded ZIP file ##
 
@@ -29,7 +29,7 @@ to complete the installation from the command line.
 
 ## License ##
 
-2025 Nil Casas<nil.cases@gmail.com>
+2022 Your name <your@email>
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software

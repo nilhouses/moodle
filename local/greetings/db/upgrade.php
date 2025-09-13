@@ -15,11 +15,10 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Plugin strings are defined here.
+ * Plugin upgrade script.
  *
  * @package     local_greetings
- * @category    string
- * @copyright   2025 Nil Casas <nil.cases@gmail.com>
+ * @copyright   2022 Your name <your@email>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -33,7 +32,7 @@ function xmldb_local_greetings_upgrade($oldversion) {
 
     $dbman = $DB->get_manager();
 
-    if ($oldversion < 2025081901) {
+    if ($oldversion < 2022031600) {
         // Define field userid to be added to local_greetings_messages.
         $table = new xmldb_table('local_greetings_messages');
         $field = new xmldb_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '1', 'timecreated');
@@ -50,7 +49,7 @@ function xmldb_local_greetings_upgrade($oldversion) {
         $dbman->add_key($table, $key);
 
         // Greetings savepoint reached.
-        upgrade_plugin_savepoint(true, 2025081901, 'local', 'greetings');
+        upgrade_plugin_savepoint(true, 2022031600, 'local', 'greetings');
     }
 
     return true;

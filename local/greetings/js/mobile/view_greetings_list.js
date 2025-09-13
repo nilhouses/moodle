@@ -1,4 +1,3 @@
-<?php
 // This file is part of Moodle - https://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -15,17 +14,13 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Plugin version and other meta-data are defined here.
+ * Javascript for View greetings screen.
  *
- * @package     local_greetings
  * @copyright   2022 Your name <your@email>
- * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+const translate = key => this.TranslateService.instant(`plugin.local_greetings.${key}`);
+const observer = this.CoreEventsProvider.on('local_greetings:messages-updated', () => this.refreshContent());
 
-$plugin->component = 'local_greetings';
-$plugin->release = '0.1.0';
-$plugin->version = 2022031901;
-$plugin->requires = 2020061500;
-$plugin->maturity = MATURITY_ALPHA;
+this.ngOnDestroy = () => observer.off();

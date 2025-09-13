@@ -22,25 +22,25 @@ use plugin_renderer_base;
  * Renderer for Greetings
  *
  * @package    local_greetings
- * @copyright  2025 Nil Casas <nil.cases@gmail.com>
+ * @copyright  2023 YOUR NAME <your@email.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class renderer extends plugin_renderer_base {
+
     /**
-     * Render the layout test page
+     * Rendering layout test page
      *
-     * @param layout_test_page $page
-     * @return string HTML to output.
+     * @return string
      */
     public function render_layout_test_page($page): string {
         $data = $page->export_for_template($this);
         return parent::render_from_template('local_greetings/layout-test', $data);
     }
+
     /**
-     * Render the index page
+     * Rendering index page
      *
-     * @param index_page $page
-     * @return string HTML to output.
+     * @return string
      */
     public function render_index_page($page): string {
         $data = $page->export_for_template($this);

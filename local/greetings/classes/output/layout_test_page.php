@@ -25,7 +25,7 @@ use stdClass;
  * Class layout_test_page
  *
  * @package    local_greetings
- * @copyright  2025 Nil Casas <nil.cases@gmail.com>
+ * @copyright  2023 YOUR NAME <your@email.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class layout_test_page implements renderable, templatable {

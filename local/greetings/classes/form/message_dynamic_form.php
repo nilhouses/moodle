@@ -14,28 +14,21 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * This file defines the Greeting message form.
- *
- * @package     local_greetings
- * @copyright  2022 Your name <your@email>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 namespace local_greetings\form;
 
-defined('MOODLE_INTERNAL') || die();
-
-require_once($CFG->libdir . '/formslib.php');
+use context;
+use context_system;
+use moodle_exception;
+use moodle_url;
 
 /**
- * Greeting message form.
+ * Greeting message dynamic form.
  *
- * @package     local_greetings
+ * @package    local_greetings
  * @copyright  2022 Your name <your@email>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class message_form extends \moodleform {
+class message_dynamic_form extends \core_form\dynamic_form {
     /**
      * Define the form.
      */
@@ -57,5 +50,55 @@ class message_form extends \moodleform {
 
         $submitlabel = get_string('submit');
         $mform->addElement('submit', 'submitmessage', $submitlabel);
+    }
+
+    /**
+     * Get context
+     *
+     * @return context
+     */
+    protected function get_context_for_dynamic_submission(): context {
+        return context_system::instance();
+    }
+
+    /**
+     * Check access
+     *
+     * @return void
+     * @throws moodle_exception
+     */
+    protected function check_access_for_dynamic_submission(): void {
+        require_capability('local/greetings:postmessages', context_system::instance());
+    }
+
+    /**
+     * Process the form submission
+     *
+     * @throws moodle_exception
+     */
+    public function process_dynamic_submission() {
+        global $DB, $USER;
+
+        return $this->get_data();
+    }
+
+    /**
+     * Set data
+     *
+     * @return void
+     */
+    public function set_data_for_dynamic_submission(): void {
+        $this->set_data([
+            'message' => $this->optional_param('message', '', PARAM_TEXT),
+        ]);
+    }
+
+    /**
+     * Get page URL
+     *
+     * @return moodle_url
+     */
+    protected function get_page_url_for_dynamic_submission(): moodle_url {
+        return new moodle_url('/local/greetings/index.php');
     }
 }

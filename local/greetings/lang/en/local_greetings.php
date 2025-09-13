@@ -19,15 +19,19 @@
  *
  * @package     local_greetings
  * @category    string
- * @copyright   2025 Nil Casas <nil.cases@gmail.com>
+ * @copyright   2022 Your name <your@email>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['allmessages'] = 'Greetings - All messages';
+$string['cannotaddgreeting'] = 'Sorry. You cannot post a greeting message.';
 $string['cannoteditmessage'] = 'You cannot edit this message';
 $string['editmessage'] = 'Edit message';
+$string['entername'] = 'Enter name';
 $string['greetingloggedinuser'] = 'Greetings, {$a}.';
+$string['greetings'] = 'Greetings';
 $string['greetings:deleteanymessage'] = 'Delete any message on the Greetings wall';
 $string['greetings:deleteownmessage'] = 'Delete own message on the Greetings wall';
 $string['greetings:postmessages'] = 'Post a new message on the Greetings wall';
@@ -37,8 +41,12 @@ $string['greetinguserau'] = 'Hello, {$a}.';
 $string['greetinguseres'] = 'Hola, {$a}.';
 $string['greetinguserfj'] = 'Bula, {$a}.';
 $string['greetingusernz'] = 'Kia Ora, {$a}.';
+$string['hello'] = 'Hello World';
 $string['messagecardbgcolor'] = 'Message card color';
 $string['messagecardbgcolordesc'] = 'Background color of the message card';
+$string['nomessages'] = 'No messages posted yet.';
+$string['norecordfound'] = 'No record found!';
 $string['pluginname'] = 'Greetings';
 $string['postedby'] = 'Posted by {$a}.';
 $string['yourmessage'] = 'Your message';
+$string['yourmessagehint'] = 'Add your message here...';

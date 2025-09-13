@@ -18,7 +18,7 @@
  * Edit greetings
  *
  * @package     local_greetings
- * @copyright   2025 Nil Casas <nil.cases@gmail.com>
+ * @copyright   2022 Your name <your@email>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,7 +30,7 @@ $context = context_system::instance();
 $PAGE->set_context($context);
 $PAGE->set_url(new moodle_url('/local/greetings/index.php'));
 $PAGE->set_pagelayout('standard');
-$PAGE->set_title(get_string('pluginname', 'local_greetings'));
+$PAGE->set_title($SITE->fullname);
 $PAGE->set_heading(get_string('editmessage', 'local_greetings'));
 
 require_login();
@@ -46,10 +46,9 @@ if (!$result = $DB->get_record('local_greetings_messages', ['id' => $id])) {
     throw new moodle_exception('norecordfound', 'local_greetings');
 }
 
-// As the course said, I'll be using the delete capability check,
-// another capability for "Edit messages" could have also been created.
+// Just using the delete capability check.
 $canedit = has_capability('local/greetings:deleteanymessage', $context) ||
-           (has_capability('local/greetings:deleteownmessage', $context) && $result->userid == $USER->id);
+    (has_capability('local/greetings:deleteownmessage', $context) && $result->userid == $USER->id);
 
 $messageform = new \local_greetings\form\message_form(null, ['message' => $result]);
 

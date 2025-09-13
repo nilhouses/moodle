@@ -12,15 +12,17 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Moodle.  If not, see <http://www.gnu.org/licenses/>;.
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template local_greetings/greeting_message
+    @template local_greetings/navmenu
 
-    Template for greetings
+    Template for tertiary navigation
 
     Example context (json):
     {
     }
 }}
-<div>{{usergreeting}}</div>
+<div class="mb-3">
+    <a href="{{config.wwwroot}}/local/greetings/allmessages.php">{{#str}} allmessages, local_greetings {{/str}}</a>
+</div>

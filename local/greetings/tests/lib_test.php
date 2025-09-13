@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - https://moodle.org/
+// This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -12,15 +12,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
-
-/**
- * Main file to view greetings
- *
- * @package     local_greetings
- * @copyright   2025 Nil Casas <nil.cases@gmail.com>
- * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace local_greetings;
 
@@ -28,17 +20,17 @@ defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 
-// File to test (lib.php).
 require_once($CFG->dirroot . '/local/greetings/lib.php');
 
 /**
  * Greetings library tests
  *
  * @package     local_greetings
- * @copyright   2025 Nil Casas <nil.cases@gmail.com>
+ * @copyright   2022 Your name <your@email>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 final class lib_test extends \advanced_testcase {
+
     /**
      * Testing the translation of greeting messages.
      *
@@ -47,15 +39,12 @@ final class lib_test extends \advanced_testcase {
      * @dataProvider local_greetings_get_greeting_provider
      * @param string|null $country User country
      * @param string $langstring Greetings message language string
-     * To run this test:
-     *   1. Initialise PHPUnit: php admin/tool/phpunit/cli/init.php
-     *   2. Execute: vendor/bin/phpunit --filter test_local_greetings_get_greeting
      */
     public function test_local_greetings_get_greeting(?string $country, string $langstring): void {
         $user = null;
         if (!empty($country)) {
             $this->resetAfterTest(true);
-            $user = $this->getDataGenerator()->create_user();
+            $user = $this->getDataGenerator()->create_user(); // Create a new user.
             $user->country = $country;
         }
 
@@ -84,11 +73,6 @@ final class lib_test extends \advanced_testcase {
             'VU user' => [ // Logged in user, but no local greeting.
                 'country' => 'VU',
                 'langstring' => 'greetingloggedinuser',
-            ],
-            // This case will fail, just to see the output result.
-            'UK user' => [
-                'country' => 'UK',
-                'langstring' => 'greetinguseres',
             ],
         ];
     }

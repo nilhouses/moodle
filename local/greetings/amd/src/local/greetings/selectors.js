@@ -1,4 +1,3 @@
-<?php
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -15,29 +14,20 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Test layout file
+ * Selectors
  *
- * @package    local_greetings
- * @copyright  2023 YOUR NAME <your@email.com>
+ * @module     local_greetings/local/greetings/selectors
+ * @copyright  2024 YOUR NAME <your@email.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require('../../config.php');
-
-require_login();
-
-$url = new moodle_url('/local/greetings/layout-test.php', []);
-$PAGE->set_url($url);
-$PAGE->set_context(context_system::instance());
-$PAGE->set_pagelayout('standard');
-$PAGE->set_title(get_string('pluginname', 'local_greetings'));
-$PAGE->set_heading(get_string('pluginname', 'local_greetings'));
-
-$output = $PAGE->get_renderer('local_greetings');
-
-echo $output->header();
-$sometext = 'Here is some content but it can be anything else, too.';
-
-$renderable = new \local_greetings\output\layout_test_page($sometext);
-echo $output->render($renderable);
-echo $output->footer();
+export default {
+    actions: {
+        showGreetingButton: '[data-action="local_greetings/helloworld-greet_button"]',
+        resetButton: '[data-action="local_greetings/helloworld-reset_button"]',
+    },
+    regions: {
+        greetingBlock: '[data-region="local_greetings/helloworld-usergreeting"]',
+        inputField: '[data-region="local_greetings/helloworld-input"]',
+    },
+};
