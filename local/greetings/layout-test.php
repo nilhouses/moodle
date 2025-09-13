@@ -18,7 +18,7 @@
  * Test layout file
  *
  * @package    local_greetings
- * @copyright  2023 YOUR NAME <your@email.com>
+ * @copyright  2025 Nil Casas <nil.cases@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

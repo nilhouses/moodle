@@ -25,7 +25,7 @@ use moodle_url;
  * Greeting message dynamic form.
  *
  * @package    local_greetings
- * @copyright  2022 Your name <your@email>
+ * @copyright  2025 Nil Casas <nil.cases@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class message_dynamic_form extends \core_form\dynamic_form {

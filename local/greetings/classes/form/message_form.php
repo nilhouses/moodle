@@ -18,7 +18,7 @@
  * This file defines the Greeting message form.
  *
  * @package     local_greetings
- * @copyright  2022 Your name <your@email>
+ * @copyright  2025 Nil Casas <nil.cases@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -32,7 +32,7 @@ require_once($CFG->libdir . '/formslib.php');
  * Greeting message form.
  *
  * @package     local_greetings
- * @copyright  2022 Your name <your@email>
+ * @copyright  2025 Nil Casas <nil.cases@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class message_form extends \moodleform {

@@ -18,7 +18,7 @@
  * Plugin upgrade script.
  *
  * @package     local_greetings
- * @copyright   2022 Your name <your@email>
+ * @copyright   2025 Nil Casas <nil.cases@gmail.com>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

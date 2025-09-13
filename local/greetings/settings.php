@@ -18,7 +18,7 @@
  * Settings for Greetings plugin.
  *
  * @package    local_greetings
- * @copyright  2022 Rajneel Totatam
+ * @copyright  2025 Nil Casas <nil.cases@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
